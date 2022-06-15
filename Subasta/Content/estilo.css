@@ -1,0 +1,34 @@
+﻿body {
+    background-color: #E8E6E6;
+}
+
+.mb8 {
+    margin-bottom: 8px;
+}
+
+html, body {
+    margin: 0;
+}
+
+.contenedor {
+    height: 100vh;
+    background-image: url(~/../../Imagenes/blurry.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Carta {
+    background-color: #E8E6E6;
+}
+
+.Negrita {
+    font-weight: 700;
+}
+
+.Negrita2 {
+    font-weight: 600;
+}

@@ -1,0 +1,135 @@
+﻿@using Subasta.Models
+@model Subasta.Models.Auction
+@{
+    ViewBag.Title = "Historial de Subasta";
+
+    List<SelectListItem> ListaUsuarios = (List<SelectListItem>)ViewBag.ListaUsuarios;
+    IEnumerable<AuctionRecord> records = ViewBag.ListaRegistroSubastas;
+}
+
+<h2>Historial de Subasta</h2>
+
+@Html.HiddenFor(x => x.AuctionId, new { @id="AuctionId" })
+
+<div class="row">
+    <div class="col-md-3 ">
+        <label class="form-label Negrita">Nombre del Producto:</label>
+    </div>
+    <div class="col-md-3">
+        @Html.DisplayFor(x => x.ProductName, new { @class = "form-control" })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3 ">
+        <label class="form-label Negrita">Descripcion del Producto:</label>
+    </div>
+    <div class="col-md-3">
+        @Html.DisplayFor(x => x.Description, new { @class = "form-control" })
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3 ">
+    </div>
+    <div class="col-md-2">
+        @Html.DropDownListFor(x => x.UserId, ListaUsuarios, null, new { @class = "btn btn-secondary dropdown-toggle", @id = "DropUsuarios" })
+    </div>
+    <div class="col-md-2 ">
+    </div>
+    <div class="col-md-3 ">
+        <label class="form-label Negrita">Monto total de Ofertas: </label>
+        <label id="LblSumaTotal" class="form-label">0</label>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-borderless table-sm table-bordered table-striped table-hover mb-5">
+            <thead class="bg-primary">
+                <tr class="text-center">
+                    <th class="col-md-4">Usuario</th>
+                    <th class="col-md-4">Monto</th>
+                    <th class="col-md-4">Fecha de Creacion</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var registro in records)
+                {
+                    <tr class="text-center align-middle">
+                        <td>
+                            @registro.UserName
+                        </td>
+
+                        <td class="Monto">
+                            @registro.Amount
+                        </td>
+
+                        <td>
+                            @registro.BidDate.ToString("d")
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            CalcularSuma();
+
+            $('#DropUsuarios').change(function () {
+                let UserId = $(this).val();
+                let Auction = $('#AuctionId').val();
+
+                let recordObj = {
+                    UserId: UserId,
+                    AuctionId: Auction
+                };
+
+                console.log(recordObj);
+                $.ajax({
+                    url: "/RegistroSubasta/CargarRecords",
+                    data: JSON.stringify(recordObj),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        var row = '';
+                        $.each(result, function (key, item) {
+                            var fecha = item.BidDate;
+                            var timestamp = fecha.substring(6, 19);
+                            var Fecha = new Date(parseInt(timestamp));
+                            row += '<tr class="text-center align-middle">';
+                            row += '<td>' + item.UserName + '</td>';
+                            row += '<td class="Monto">' + item.Amount + '</td>';
+                            row += '<td>' + Fecha.toLocaleDateString() + '</td>';
+                            row += '</tr>';
+                        });
+                        $('tbody').html(row);
+                        console.log(result);
+                        CalcularSuma();
+                    },
+                    error: function (errormessage) {
+                        console.log(errormessage.responseText);
+                    }
+                });
+            });
+
+            function CalcularSuma() {
+                var campo = document.getElementsByClassName('Monto');
+                var suma = 0;
+                for (var i = 0; i < campo.length; ++i) {
+                    var item = campo[i];
+                    suma += parseInt(item.innerHTML);
+                }
+                $('#LblSumaTotal').text(suma);
+            }
+
+        });
+    </script>
+}

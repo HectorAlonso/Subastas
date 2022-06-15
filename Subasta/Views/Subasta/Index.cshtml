@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Subasta.Models.Auction>
+
+@{
+    ViewBag.Title = "Subastas";
+}
+
+<h4>Subastas</h4>
+@using (Html.BeginForm("Index", "Subasta", FormMethod.Get, new { @id = "FormBusqueda" }))
+{
+    <div class="row d-flex justify-content-around">
+        <div class="col-md-6">
+            <label class="form-label Negrita">Buscar por Descripcion: </label>
+            @Html.TextBox("Description")
+        </div>
+        <div class="col-md-3">
+            <a href="@Url.Action("Crear", "Subasta")" class="btn btn-primary mb8">Crear Subasta</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-borderless table-sm table-bordered table-striped table-hover mb-5">
+                <thead class="bg-primary">
+                    <tr class="text-center">
+                        <th class="col-md-1">Clave</th>
+                        <th class="col-md-3">Nombre del Producto</th>
+                        <th class="col-md-4">Descripcion del Producto</th>
+                        <th class="col-md-1">Fecha Inicio</th>
+                        <th class="col-md-1">Fecha Final</th>
+                        <th class="col-md-1">Historial</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var Subasta in Model)
+                    {
+                        <tr class="text-center align-middle ">
+                            <td>
+                                @Subasta.AuctionId
+                            </td>
+
+                            <td>
+                                <a href="@Url.Action("Actualizar", "Subasta", new { AuctionId = Subasta.AuctionId })">
+                                    @Subasta.ProductName
+                                </a>
+                            </td>
+
+                            <td>
+                                @Subasta.Description
+                            </td>
+
+                            <td>
+                                @Subasta.StartDate.ToString("d")
+                            </td>
+
+                            <td>
+                                @Subasta.EndDate.ToString("d")
+                            </td>
+
+                            <td class="text-center align-top">
+                                <a href="@Url.Action("Index", "RegistroSubasta", new { AuctionId = Subasta.AuctionId })">
+                                    <i class="bi-card-list" style="font-size: 1.2rem; color: #0026ff"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@section Scripts{
+
+    <script>
+
+        let Description = document.getElementById("Description");
+        let FormBusqueda = document.getElementById("FormBusqueda");
+        window.onload = CambiarCursorAlFinal(Description);
+
+        Description.onkeyup = function () { //La funcion onkeyup se activa cada que agregas una tecla al textbox
+            FormBusqueda.submit();
+        }
+
+        function CambiarCursorAlFinal(elemento) {
+            Description.focus();
+            var val = Description.value;
+            Description.value = '';
+            Description.value = val;
+        }
+
+    </script>
+
+}

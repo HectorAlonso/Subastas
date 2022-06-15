@@ -1,0 +1,51 @@
+﻿@model Subasta.Models.User
+@{
+    ViewBag.Title = "Crear Cuenta";
+}
+
+<h4 class="col-md-offset-2" style="margin-top:2rem; color: blue">Crear Nueva Cuenta</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form action="@Url.Action("Registrarse", "User")" method="post">
+
+            <div class="mb-3">
+                @Html.LabelFor(x => x.UserName)
+                @Html.EditorFor(x => x.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(x => x.Password)
+                @Html.EditorFor(x => x.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(x => x.Name)
+                @Html.EditorFor(x => x.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-4">
+                @Html.LabelFor(x => x.Email)
+                @Html.EditorFor(x => x.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb8 offset-6">
+                <input type="submit" class="btn btn-primary" value="Registrarse" />
+                @Html.ActionLink("Cancelar", "Login", "User", new { @class = "btn btn-danger" })
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+

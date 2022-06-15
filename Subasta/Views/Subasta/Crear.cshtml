@@ -1,0 +1,60 @@
+﻿@model Subasta.Models.Auction
+
+@{
+    ViewBag.Title = "Crear Subasta";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <h4 class="col-md-offset-2" style="margin-top:2rem; color: blue">Nueva Subasta</h4>
+    <hr />
+    @Html.ValidationMessageFor(model => model.MensajeError, "", new { @class = "text-danger mb8" })
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(model => model.ProductName)
+        <div class="col-md-3">
+            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-3">
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "col-md-3" })
+        <div class="col-md-2">
+            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-2">
+            @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <div class="col-md-offset-3 col-md-10">
+            <input type="submit" value="Crear" class="btn btn-primary" />
+            <a href="@Url.Action("Index","Subasta")" class="btn btn-danger">Cancelar</a>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

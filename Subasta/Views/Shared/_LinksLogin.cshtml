@@ -1,0 +1,15 @@
+﻿@model Subasta.Models.User
+
+<ul class="navbar-nav">
+    @if (Model != null)
+    {
+        <li class="nav-item">
+            <span class="nav-link text-light">@Model.Name</span>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" action="@Url.Action("Logout", "User")" method="post">
+                <button type="submit" class="nav-link btn btn-link text-light">Cerrar Sesion</button>
+            </form>
+        </li>
+    }
+</ul>
